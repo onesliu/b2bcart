@@ -42,9 +42,11 @@ final class MySQL {
 					
 					unset($data);
 					
-					return $query;	
+					return $query;
 				} else {
-					return true;
+					$query = new stdClass();
+					$query->num_rows = mysql_affected_rows($this->link);
+					return $query;
 				}
 			} else {
 				trigger_error('Error: ' . mysql_error($this->link) . '<br />Error No: ' . mysql_errno($this->link) . '<br />' . $sql);
@@ -77,6 +79,19 @@ final class MySQL {
 		if ($this->link) {
 			mysql_close($this->link);
 		}
+	}
+	
+	public function begin() {
+		$this->query("SET AUTOCOMMIT=0");
+		$this->query("BEGIN");
+	}
+	
+	public function commit() {
+		$this->query("COMMIT");
+	}
+	
+	public function rollback() {
+		$this->query("ROLLBACK");
 	}
 }
 ?>

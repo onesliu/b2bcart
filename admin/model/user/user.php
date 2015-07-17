@@ -43,7 +43,7 @@ class ModelUserUser extends Model {
 	}
 		
 	public function getUsers($data = array()) {
-		$sql = "select u.*,ug.name as user_group,d.name as district from `" . DB_PREFIX . "user` u join `" . DB_PREFIX . "user_group` ug on u.user_group_id=ug.user_group_id left outer join `" . DB_PREFIX . "district` d on u.district_id=d.id";
+		$sql = "select u.*,ug.name as user_group,d.name as district from `" . DB_PREFIX . "user` u left outer join `" . DB_PREFIX . "user_group` ug on u.user_group_id=ug.user_group_id left outer join `" . DB_PREFIX . "district` d on u.district_id=d.id";
 			
 		$sort_data = array(
 			'username',

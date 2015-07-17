@@ -24,6 +24,7 @@ require_once(DIR_SYSTEM . 'library/length.php');
 require_once(DIR_SYSTEM . 'library/wxtools.php');
 require_once(DIR_SYSTEM . 'library/order.php');
 require_once(DIR_SYSTEM . 'library/coupon.php');
+require_once(DIR_SYSTEM . 'library/invitecode.php');
 
 // Registry
 $registry = new Registry();
@@ -144,6 +145,9 @@ $registry->set('length', new Length($registry));
 
 // User
 $registry->set('user', new User($registry));
+
+// User
+$registry->set('invitecode', new Invitecode($registry));
 						
 // Front Controller
 $controller = new Front($registry);

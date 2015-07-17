@@ -26,6 +26,18 @@ class DB {
 
   	public function getLastId() {
 		return $this->driver->getLastId();
-  	}	
+  	}
+	
+	public function begin() {
+		return $this->driver->begin();
+	}
+	
+	public function commit() {
+		return $this->driver->commit();
+	}
+	
+	public function rollback() {
+		return $this->driver->rollback();
+	}
 }
 ?>

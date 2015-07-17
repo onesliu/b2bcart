@@ -123,7 +123,7 @@ class TenpayHttpClient {
 		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
 		
 		// 从证书中检查SSL加密算法是否存在
-		curl_setopt ( $ch, CURLOPT_SSL_VERIFYHOST, true );
+		curl_setopt ( $ch, CURLOPT_SSL_VERIFYHOST, 2 );
 		
 		if ($this->method == "post") {
 			//发送一个常规的POST请求，类型为：application/x-www-form-urlencoded，就像表单提交的一样。

@@ -25,6 +25,7 @@ require_once(DIR_SYSTEM . 'library/weight.php');
 require_once(DIR_SYSTEM . 'library/length.php');
 require_once(DIR_SYSTEM . 'library/cart.php');
 require_once(DIR_SYSTEM . 'library/coupon.php');
+require_once(DIR_SYSTEM . 'library/invitecode.php');
 
 // Registry
 $registry = new Registry();
@@ -215,6 +216,8 @@ $registry->set('length', new Length($registry));
 // Cart
 $registry->set('cart', new Cart($registry));
 
+$registry->set('invitecode', new Invitecode($registry));
+
 // Encryption
 $registry->set('encryption', new Encryption($config->get('config_encryption')));
 		
@@ -231,7 +234,7 @@ $controller->addPreAction(new Action('common/maintenance'));
 if (isset($request->get['route'])) {
 	$action = new Action($request->get['route']);
 } else {
-	$action = new Action('common/home');
+	$action = new Action('weixin/weixin');
 }
 
 // Dispatch

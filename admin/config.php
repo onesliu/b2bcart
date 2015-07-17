@@ -1,6 +1,6 @@
 <?php
 // HTTP
-define('MY_DOMAIN', 'localhost/opencart');
+define('MY_DOMAIN', '192.168.1.4/b2bcart');
 
 define('HTTP_SERVER', 'http://'.MY_DOMAIN.'/admin/');
 define('HTTP_CATALOG', 'http://'.MY_DOMAIN.'/');
@@ -10,7 +10,7 @@ define('HTTPS_SERVER', 'http://'.MY_DOMAIN.'/admin/');
 define('HTTPS_CATALOG', 'http://'.MY_DOMAIN.'/');
 
 // DIR
-define('DIR_PREFIX', 'D:\\PHPnow\\htdocs\\opencart\\');
+define('DIR_PREFIX', 'D:\\PHPnow\\htdocs\\b2bcart\\');
 define('DIR_APPLICATION', DIR_PREFIX.'/admin/');
 define('DIR_SYSTEM', DIR_PREFIX.'/system/');
 define('DIR_DATABASE', DIR_PREFIX.'/system/database/');
@@ -28,6 +28,6 @@ define('DB_DRIVER', 'mysql');
 define('DB_HOSTNAME', 'localhost');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', 'nb33l2l3');
-define('DB_DATABASE', 'opencart');
+define('DB_DATABASE', 'b2bcart');
 define('DB_PREFIX', 'oc_');
 ?>

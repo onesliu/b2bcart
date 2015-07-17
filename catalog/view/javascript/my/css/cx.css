@@ -1,0 +1,66 @@
+.cFixedScrollWrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    height: 100%;
+}
+.cFixedScroll {
+    position: relative;
+    overflow: hidden;
+    min-width: 320px;
+    margin: 0 auto;
+}
+.cx_fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ecd7a0;
+    z-index: 999999;
+}
+.cx_img, .cx_img img {
+    width: 100%;
+    vertical-align: top;
+}
+.cx_enter_wrap {
+    position: absolute;
+    left: 50%; 
+    top: 71%;
+    margin-left: -5.35em;
+    overflow: hidden;
+    padding: 0 0 0.5em;
+}
+.cx_enter {
+    display: block;
+    width: 10.71em;
+    height: 2.5em;
+    margin: 0 auto;
+    line-height: 2.5em;
+    text-align: center;
+    color: #fff!important;
+    border-radius: 4px;
+    background-color: #ff4e4e;
+}
+.cx_footer {
+    display: none;
+    position: relative;
+    padding: 0.5em;
+    line-height: 1.5;
+    background-color: #f7e988;
+    border-top: 1px solid #ada463;
+}
+.cx_dl {
+    font-size: 0.7em;
+    color: #444444;
+}
+.cx_dl dt {
+    color: #ff4e4e;
+    margin-bottom: 0.5em;
+}
+.cx_info {
+    border: 1px solid #d8413e;
+    background-color: rgba(243, 73, 70, 0.85);
+    right: auto;
+    left: 0.7em;
+}

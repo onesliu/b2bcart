@@ -60,7 +60,7 @@ class WeixinTools {
 		$url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
 		$url = str_replace('APPID', $appid, $url);
 		
-		$link = "http://".MY_DOMAIN."/pay/weixin.php?route=weixin/login";
+		$link = "http://".MY_DOMAIN."/index.php?route=weixin/weixin/auth";
 		if (strlen($remote_file) > 0) {
 			$link .= "&jump=$remote_file";
 		}

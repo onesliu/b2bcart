@@ -25,29 +25,22 @@ class ControllerWeixinWeixin extends Controller {
 			//关注事件与取消关注事件
 			$this->load->model('weixin/get_userinfo');
 			if ($this->WeixinMsgType == 'event' && $this->WeixinEvent == 'subscribe') {
-				//取用户信息，并自动注册到商城
-				$userinfo = $this->model_weixin_get_userinfo->getUserInfo($this->access_token, $this->WeixinFromUserName);
-				if ($userinfo == false) {
-					$this->log->write("自动注册用户出错：".$this->WeixinFromUserName);
+				//发送关注欢迎消息
+				$this->load->model("weixin/auto_reply");
+				$reply = $this->model_weixin_auto_reply->getReply($this->WeixinFromUserName,
+					$this->WeixinToUserName, 'subscribe');
+				if ($reply != false) {
+					$reply = $wxtools->prepareMenu($reply, $this->appid);
+					$this->response->setOutput($reply);
+					return;
 				}
 				else {
-					//发送关注欢迎消息
-					$this->load->model("weixin/auto_reply");
-					$reply = $this->model_weixin_auto_reply->getReply($this->WeixinFromUserName,
-						$this->WeixinToUserName, 'subscribe');
-					if ($reply != false) {
-						$reply = $wxtools->prepareMenu($reply, $this->appid);
-						$this->response->setOutput($reply);
-						return;
-					}
-					else {
-						$this->log->write("发送关注欢迎消息出错：".$this->WeixinFromUserName." ".$this->WeixinToUserName);
-					}
+					$this->log->write("发送关注欢迎消息出错：".$this->WeixinFromUserName." ".$this->WeixinToUserName);
 				}
 			}
 			else if ($this->WeixinMsgType == 'event' && $this->WeixinEvent == 'unsubscribe') {
 				//注销用户
-				$this->model_weixin_get_userinfo->unSubscribeUser($this->WeixinFromUserName);
+				//$this->model_weixin_get_userinfo->unSubscribeUser($this->WeixinFromUserName);
 				$this->log->write("注销微信用户：".$this->WeixinFromUserName);
 			}
 			else if ($this->WeixinMsgType == 'event' && $this->WeixinEvent == 'CLICK') {
@@ -130,6 +123,44 @@ class ControllerWeixinWeixin extends Controller {
 		}
 		
 		return true;
+	}
+	
+	public function auth() {
+		if (isset($this->request->get['jump'])) {
+			$redirect = $this->request->get['jump'];
+			
+			foreach($this->request->get as $key => $val) {
+				if ($key != 'route' && $key != 'jump' && $key != 'code' && $key != 'state') {
+					$redirect .= "&$key=$val";
+				}
+			}
+		}
+		else
+			$redirect = 'rest/home';
+		
+		$redirect = $this->url->link($redirect);
+		
+		if (isset($this->request->get['code'])) {
+			$this->load->model('weixin/access_token');
+			$this->load->model('setting/setting');
+			
+			$this->session->data['oauth_code'] = $this->request->get['code'];
+			$this->session->data['oauth_state'] = $this->request->get['state'];
+			
+			$wx = $this->model_setting_setting->getSetting('weixin');
+			$ac = $this->model_weixin_access_token->getTempAccessToken($wx['weixin_appid'],
+					$wx['weixin_appsecret'], $this->request->get['code']);
+			if ($ac != false) {
+				$openid = $ac->openid;
+				$this->session->data['openid'] = $openid;
+				$this->session->data['oauth_access_token'] = $ac->access_token;
+			}
+			else {
+				$this->log->write("微信认证错误");
+			}
+		}
+		
+		$this->redirect($redirect);
 	}
 	
 	private function valid_check() {

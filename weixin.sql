@@ -196,9 +196,19 @@ CREATE TABLE if not exists `oc_partner` (
   `phone` varchar(64) NOT NULL,
   `desp` text default null,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table oc_product add `partner_id` int default 0;
+
+CREATE TABLE if not exists `oc_invitecode` (
+  `code` varchar(6) NOT NULL,
+  `usertype` int(11) NOT NULL,
+  `hasused` int(11) NOT NULL default 0,
+  `userid` int(11) NOT NULL default 0,
+  `userpid` int(11) NOT NULL default 0,
+  `gettime` timestamp default now(),
+  PRIMARY KEY  (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*
 mysql> desc oc_coupon;
@@ -301,6 +311,7 @@ alter table oc_address add `district_id` int(11) not null default '0';
 alter table oc_address add telephone varchar(32);
 
 alter table oc_user add district_id int(11) default 0;
+alter table oc_user add usertype int(11) default 0;
 
 insert into oc_setting (`key`,`value`) values('first_shipping_time', '9');
 insert into oc_setting (`key`,`value`) values('last_shipping_time', '19');

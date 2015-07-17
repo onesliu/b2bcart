@@ -4,6 +4,22 @@ class ModelMobileStoreProduct extends Model {
 		$this->db->query("UPDATE " . DB_PREFIX . "product SET viewed = (viewed + 1) WHERE product_id = '" . (int)$product_id . "'");
 	}
 	
+	public function getRestProducts($category_id, $limit = 0) {
+		$sql = "select p.product_id,pd.name,p.model,c.category_id,c.parent_id,p.minimum,p.price,p.mpn as sellprice,
+				p.sku as unit, p.upc as sellunit, p.product_type, p.image from oc_product p 
+				join oc_product_to_category pc on p.product_id = pc.product_id 
+				join oc_category c on pc.category_id = c.category_id 
+				join oc_product_description pd on p.product_id = pd.product_id
+				where p.status > 0 and c.parent_id = $category_id";
+		if ($limit > 0) $sql .= " limit $limit";
+		$query = $this->db->query($sql);
+		if ($query->num_rows) {
+			return $query->rows;
+		} else {
+			return false;
+		}
+	}
+	
 	public function getProduct($product_id) {
 		if ($this->customer->isLogged()) {
 			$customer_group_id = $this->customer->getCustomerGroupId();
@@ -11,7 +27,7 @@ class ModelMobileStoreProduct extends Model {
 			$customer_group_id = $this->config->get('config_customer_group_id');
 		}	
 				
-		$query = $this->db->query("SELECT DISTINCT *, pd.name AS name, p.image, m.name AS manufacturer, 
+		$sql = "SELECT DISTINCT *, pd.name AS name, p.image, m.name AS manufacturer, 
 		(SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id AND 
 		pd2.customer_group_id = '" . (int)$customer_group_id . "' AND pd2.quantity = '1' AND 
 		((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) 
@@ -35,8 +51,9 @@ class ModelMobileStoreProduct extends Model {
 		(p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) 
 		LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) WHERE p.product_id = '" . 
 		(int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . 
-		"' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
+		"' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
 		
+		$query = $this->db->query($sql);
 		if ($query->num_rows) {
 			if ($query->row['product_type']==0)
 				$type = '固定重量商品';

@@ -12,6 +12,7 @@ class Cart {
 		$this->tax = $registry->get('tax');
 		$this->weight = $registry->get('weight');
 		$this->cache = $registry->get('cache');
+		$this->log = $registry->get('log');
 
 		if (!isset($this->session->data['cart']) || !is_array($this->session->data['cart'])) {
       		$this->session->data['cart'] = array();
@@ -20,6 +21,7 @@ class Cart {
 	      
   	public function getProducts() {
 		if (!$this->data) {
+			//$this->log->write(print_r($this->session->data['cart'],true));
 			foreach ($this->session->data['cart'] as $key => $quantity) {
 				$product = explode(':', $key);
 				$product_id = $product[0];
