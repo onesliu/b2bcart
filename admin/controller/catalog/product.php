@@ -359,7 +359,7 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('tool/image');
 		
 		$product_total = $this->model_catalog_product->getTotalProducts($data);
-			
+		
 		$results = $this->model_catalog_product->getProducts($data);
 				    	
 		foreach ($results as $result) {
